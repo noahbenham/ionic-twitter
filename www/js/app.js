@@ -36,12 +36,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngCordovaOauth'])
             oauth_timestamp: Math.round((new Date()).getTime() / 1000.0),
             oauth_version: "1.0"
         };
-        var signatureObj = $cordovaOauthUtility.createSignature("GET", "https://api.twitter.com/1.1/statuses/home_timeline.json", oauthObject, {screen_name:result.screen_name}, "wkbp85NxRwjmYZjE2upIpPozK9DmdQSVxn9nLxCmEc8oRFK3Sp", result.oauth_token_secret);
+        var signatureObj = $cordovaOauthUtility.createSignature("GET", "https://api.twitter.com/1.1/statuses/user_timeline.json", oauthObject, {screen_name:result.screen_name}, "wkbp85NxRwjmYZjE2upIpPozK9DmdQSVxn9nLxCmEc8oRFK3Sp", result.oauth_token_secret);
         console.log("Generating signature");
         console.log(signatureObj);
         console.log(signatureObj.signature);
         $http.defaults.headers.common.Authorization = signatureObj.authorization_header;
-        $http.get("https://api.twitter.com/1.1/statuses/home_timeline.json",
+        $http.get("https://api.twitter.com/1.1/statuses/user_timeline.json",
                {params: { screen_name: result.screen_name}})
       .success(function(response) {
                 console.log(response);
