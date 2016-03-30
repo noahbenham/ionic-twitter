@@ -3,22 +3,58 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngResource', 'ngCordova'])
+angular.module('starter', ['ionic', 'ngCordova', 'ngCordovaOauth'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
     if(window.cordova && window.cordova.plugins.Keyboard) {
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-
-      // Don't remove this line unless you know what you are doing. It stops the viewport
-      // from snapping when text inputs are focused. Ionic handles this internally for
-      // a much nicer keyboard experience.
-      cordova.plugins.Keyboard.disableScroll(true);
     }
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
   });
 })
+.controller('TwitterCtrl', ['$scope','$cordovaOauth','$cordovaOauthUtility','$http','$ionicPlatform', function ($scope,$cordovaOauth,$cordovaOauthUtility,$http,$ionicPlatform) {
+  $scope.twitterLogin = function(){
+    console.log("twitterLogin function got called");
+    $cordovaOauth.twitter("XgJZmrnSqycxVipO9EaEYmToW", "wkbp85NxRwjmYZjE2upIpPozK9DmdQSVxn9nLxCmEc8oRFK3Sp").then(function(result) {
+      console.log(JSON.stringify(result));
+      var oauth_token = result.oauth_token;
+      var oauth_token_secret = result.oauth_token_secret;
+      var user_id = result.user_id;
+      var screen_name = result.screen_name;
+
+      //Accessing profile info from twitter
+      var oauthObject = {
+            oauth_consumer_key: "XgJZmrnSqycxVipO9EaEYmToW",
+            oauth_nonce: $cordovaOauthUtility.createNonce(10),
+            oauth_signature_method: "HMAC-SHA1",
+            oauth_token: result.oauth_token,
+            oauth_timestamp: Math.round((new Date()).getTime() / 1000.0),
+            oauth_version: "1.0"
+        };
+        var signatureObj = $cordovaOauthUtility.createSignature("GET", "https://api.twitter.com/1.1/statuses/home_timeline.json", oauthObject, {screen_name:result.screen_name}, "wkbp85NxRwjmYZjE2upIpPozK9DmdQSVxn9nLxCmEc8oRFK3Sp", result.oauth_token_secret);
+        console.log("Generating signature");
+        console.log(signatureObj);
+        console.log(signatureObj.signature);
+        $http.defaults.headers.common.Authorization = signatureObj.authorization_header;
+        $http.get("https://api.twitter.com/1.1/statuses/home_timeline.json",
+               {params: { screen_name: result.screen_name}})
+      .success(function(response) {
+                console.log(response);
+                $scope.tweets = response;
+      })
+     .error(function(error) {
+              alert(error);
+      });
+      //$location.url('/scan');
+    }, function(error) {
+      console.log(error);
+    });
+
+  }
+
+}])
