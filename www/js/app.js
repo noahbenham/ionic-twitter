@@ -7,13 +7,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngCordovaOauth'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
-    console.log("Running...")
-    navigator.splashscreen.hide()
+    console.log("Running...");
+    //console.log("Cordova plugins JSON: " + JSON.stringify(window.cordova.plugins));
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
+    /*if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
+    }*/
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
@@ -21,9 +21,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngCordovaOauth'])
 })
 .controller('TwitterCtrl', ['$scope','$cordovaOauth','$cordovaOauthUtility','$http','$ionicPlatform', function ($scope,$cordovaOauth,$cordovaOauthUtility,$http,$ionicPlatform) {
   $scope.twitterLogin = function(){
-    console.log("twitterLogin function got called");
+    console.log("twitterLogin function got called..");
     $cordovaOauth.twitter("XgJZmrnSqycxVipO9EaEYmToW", "wkbp85NxRwjmYZjE2upIpPozK9DmdQSVxn9nLxCmEc8oRFK3Sp").then(function(result) {
-      console.log(JSON.stringify(result));
+      console.log("JSON: " + JSON.stringify(result));
       var oauth_token = result.oauth_token;
       var oauth_token_secret = result.oauth_token_secret;
       var user_id = result.user_id;
@@ -46,15 +46,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'ngCordovaOauth'])
         $http.get("https://api.twitter.com/1.1/statuses/user_timeline.json",
                {params: { screen_name: result.screen_name}})
       .success(function(response) {
-                console.log(response);
+                console.log("Success, response: " + JSON.stringify(response));
                 $scope.tweets = response;
       })
      .error(function(error) {
+              console.log("ERROR: " + error);
               alert(error);
       });
       //$location.url('/scan');
     }, function(error) {
-      console.log(error);
+      console.log("ERROR: " + error);
     });
 
   }
