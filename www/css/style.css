@@ -1,7 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Coming+Soon);
 
 .customheader {
-  font-family: 'Coming Soon', cursive !important;
+  font-family: 'Coming Soon', cursive;
+  font-size: 25px !important;
 }
 
 .center {

@@ -7,6 +7,7 @@
     <title>My Twitter</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/ionic/css/ionicons.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -29,19 +30,20 @@
     <ion-pane>
 
       <ion-header-bar class="bar bar-positive">
-        <div class="buttons" ng-show="tweets != nil">
-          <img class="title-image" ng-src="{{profile_image_url}}" width="43" height="43" />
-        </div>
-        <h1 class="customheader title">{{screen_name}}</h1>
+        <h1 class="customheader title"><i class="icon ion-social-twitter"></i> {{screen_name}}</h1>
       </ion-header-bar>
 
       <ion-content class="has-header">
-        <button class="button button-block button-balanced" ng-show="tweets == nil" ng-click="twitterLogin()">Twitter Login</button>
+        <button class="button button-block button-balanced" ng-show="tweets == nil" ng-click="twitterLogin()">Please Login <i class="icon ion-unlocked"></i></button>
 
         <div collection-repeat="item in tweets" class="card card-block item-thumbnail-left" ng-show="tweets != nil">
-          <img ng-src="{{item.user.profile_image_url}}" height="25" width="25" />
+          <img ng-src="{{item.user.profile_image_url}}" />
           <div class="item item-text-wrap card-text">{{item.text}}</div>
-          <div class="item card-link">{{convertTwitterDate(item.created_at)}}</div>
+          <div class="item card-link">
+            <i class="icon ion-reply" ng-show="item.in_reply_to_screen_name"> {{item.in_reply_to_screen_name}} | </i>
+            <i class="icon ion-arrow-return-right" ng-show="item.retweeted"> | </i>
+            {{convertTwitterDate(item.created_at)}}
+          </div>
         </div>
       </ion-content>
 
