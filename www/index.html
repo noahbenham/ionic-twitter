@@ -34,7 +34,14 @@
       </ion-header-bar>
 
       <ion-content class="has-header">
-        <button class="button button-block button-balanced" ng-show="tweets == nil" ng-click="twitterLogin()">Please Login <i class="icon ion-unlocked"></i></button>
+
+        <div class="row row-center loginbutton" ng-show="tweets == nil">
+          <div class="col">
+            <h1>Please login.</h1>
+            <h3>You'll need to login with Twitter to use this app.</h3>
+            <button class="button button-block button-balanced" ng-click="twitterLogin()"><i class="icon ion-unlocked">  </i>Continue</button>
+          </div>
+        </div>
 
         <div collection-repeat="item in tweets" class="card card-block item-thumbnail-left" ng-show="tweets != nil">
           <img ng-src="{{item.user.profile_image_url}}" />
