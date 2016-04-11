@@ -38,16 +38,11 @@
       <ion-content class="has-header">
         <button class="button button-block button-balanced" ng-show="tweets == nil" ng-click="twitterLogin()">Twitter Login</button>
 
-        <!-- <p>Img url: {{user.profile_image_url}}</p> -->
-        <ion-item collection-repeat="item in tweets" class="card item-thumbnail-left item-text-wrap" ng-show="tweets != nil">
+        <div collection-repeat="item in tweets" class="card card-block item-thumbnail-left" ng-show="tweets != nil">
           <img ng-src="{{item.user.profile_image_url}}" height="25" width="25" />
-          <p>{{item.text}}</p>
-          <p>{{item.created_at}}</p>
-        </ion-item>
-        <!-- <ion-item collection-repeat="item in tweets" class="card item-text-wrap" ng-show="tweets != nil">
-          <p>{{item.text}}</p>
-          <p>{{item.created_at}}</p>
-        </ion-item> -->
+          <div class="item item-text-wrap card-text">{{item.text}}</div>
+          <div class="item card-link">{{item.created_at}}</div>
+        </div>
       </ion-content>
 
     </ion-pane>
