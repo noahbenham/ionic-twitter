@@ -40,9 +40,6 @@ angular.module('ionic_twitter', ['ionic', 'ngCordova', 'ngCordovaOauth'])
       var oauth_token_secret = result.oauth_token_secret;
       var user_id = result.user_id;
       var screen_name = result.screen_name;
-      // var profile_image_url = result.profile_image_url;
-
-      // console.log(profile_image_url);
 
       // Access profile info from twitter
       var oauthObject = {
@@ -62,7 +59,7 @@ angular.module('ionic_twitter', ['ionic', 'ngCordova', 'ngCordovaOauth'])
                 console.log("Success, response: " + JSON.stringify(response));
                 $scope.tweets = response;
                 $scope.screen_name = screen_name;
-                // $scope.user.profile_image_url = response;
+                $scope.user.profile_image_url = response;
       })
      .error(function(error) {
               console.log("ERROR: " + error);

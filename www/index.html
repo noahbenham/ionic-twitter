@@ -28,21 +28,26 @@
   <body ng-app="ionic_twitter" ng-controller="TwitterCtrl">
     <ion-pane>
 
-      <ion-header-bar class="bar-positive">
+      <ion-header-bar class="bar bar-positive">
         <div class="buttons" ng-show="tweets != nil">
           <img class="title-image" ng-src="{{profile_image_url}}" width="43" height="43" />
         </div>
         <h1 class="customheader title">{{screen_name}}</h1>
       </ion-header-bar>
 
-      <ion-content>
+      <ion-content class="has-header">
         <button class="button button-block button-balanced" ng-show="tweets == nil" ng-click="twitterLogin()">Twitter Login</button>
 
         <!-- <p>Img url: {{user.profile_image_url}}</p> -->
-        <ion-item collection-repeat="item in tweets" class="card item-text-wrap" ng-show="tweets != nil">
+        <ion-item collection-repeat="item in tweets" class="card item-thumbnail-left item-text-wrap" ng-show="tweets != nil">
+          <img ng-src="{{item.user.profile_image_url}}" height="25" width="25" />
           <p>{{item.text}}</p>
           <p>{{item.created_at}}</p>
         </ion-item>
+        <!-- <ion-item collection-repeat="item in tweets" class="card item-text-wrap" ng-show="tweets != nil">
+          <p>{{item.text}}</p>
+          <p>{{item.created_at}}</p>
+        </ion-item> -->
       </ion-content>
 
     </ion-pane>
