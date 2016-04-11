@@ -41,7 +41,7 @@
         <div collection-repeat="item in tweets" class="card card-block item-thumbnail-left" ng-show="tweets != nil">
           <img ng-src="{{item.user.profile_image_url}}" height="25" width="25" />
           <div class="item item-text-wrap card-text">{{item.text}}</div>
-          <div class="item card-link">{{item.created_at}}</div>
+          <div class="item card-link">{{convertTwitterDate(item.created_at)}}</div>
         </div>
       </ion-content>
 

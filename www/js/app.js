@@ -22,6 +22,38 @@ angular.module('ionic_twitter', ['ionic', 'ngCordova', 'ngCordovaOauth'])
 .controller('TwitterCtrl', ['$scope','$cordovaOauth','$cordovaOauthUtility','$http','$ionicPlatform', function ($scope,$cordovaOauth,$cordovaOauthUtility,$http,$ionicPlatform) {
   $scope.screen_name = "My Twitter";
 
+  $scope.convertTwitterDate = function(tdate) {
+    var system_date = new Date(Date.parse(tdate));
+    var user_date = new Date();
+    if (KWidget.ie) {
+      system_date = Date.parse(tdate.replace(/( \+)/, ' UTC$1'))
+    }
+    var diff = Math.floor((user_date - system_date) / 1000);
+    if (diff <= 1) {return "just now";}
+    if (diff < 20) {return diff + " seconds ago";}
+    if (diff < 40) {return "half a minute ago";}
+    if (diff < 60) {return "less than a minute ago";}
+    if (diff <= 90) {return "one minute ago";}
+    if (diff <= 3540) {return Math.round(diff / 60) + " minutes ago";}
+    if (diff <= 5400) {return "1 hour ago";}
+    if (diff <= 86400) {return Math.round(diff / 3600) + " hours ago";}
+    if (diff <= 129600) {return "1 day ago";}
+    if (diff < 604800) {return Math.round(diff / 86400) + " days ago";}
+    if (diff <= 907200) {return "1 week ago";}
+    if (diff < 2419200) {return Math.round(diff / 604800) + " weeks ago";}
+    if (diff <= 3945000) {return "1 month ago";}
+    if (diff < 31536000) {return Math.round(diff / 2628000) + " months ago";}
+    else {return "Over a year ago";}
+  }
+
+  // from http://widgets.twimg.com/j/1/widget.js
+  var KWidget = function () {
+    var a = navigator.userAgent;
+    return {
+      ie: a.match(/MSIE\s([^;]*)/)
+    }
+  }();
+
   $scope.twitterLogin = function(){
     console.log("twitterLogin function got called..");
     $cordovaOauth.twitter("XgJZmrnSqycxVipO9EaEYmToW", "wkbp85NxRwjmYZjE2upIpPozK9DmdQSVxn9nLxCmEc8oRFK3Sp").then(function(result) {
