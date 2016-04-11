@@ -5,6 +5,7 @@
   font-size: 25px !important;
 }
 
-.row, .scroll {
+/*Vertically center button on welcome screen - removed due to layout issues*/
+/*.row, .scroll {
   height: 100%;
-}
+}*/
